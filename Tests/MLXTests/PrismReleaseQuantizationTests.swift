@@ -2,10 +2,6 @@ import MLX
 import XCTest
 
 class PrismReleaseQuantizationTests: XCTestCase {
-    override class func setUp() {
-        setDefaultDevice()
-    }
-
     func testLowBitMatmulMatchesDequantizedReference() {
         for bits in [1, 2, 4] {
             for groupSize in [32, 64, 128] {
