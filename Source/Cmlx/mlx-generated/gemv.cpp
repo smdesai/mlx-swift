@@ -681,10 +681,20 @@ constexpr complex_t<T> operator*(complex_t<T> a, complex_t<T> b) {
 
 template <typename T>
 constexpr complex_t<T> operator/(complex_t<T> a, complex_t<T> b) {
-  auto denom = b.real * b.real + b.imag * b.imag;
-  auto x = a.real * b.real + a.imag * b.imag;
-  auto y = a.imag * b.real - a.real * b.imag;
-  return {x / denom, y / denom};
+  float ar = a.real, ai = a.imag;
+  float br = b.real, bi = b.imag;
+  if (abs(br) >= abs(bi)) {
+    auto ratio = bi / br;
+    auto denom = br + bi * ratio;
+    return {
+        static_cast<T>((ar + ai * ratio) / denom),
+        static_cast<T>((ai - ar * ratio) / denom)};
+  }
+  auto ratio = br / bi;
+  auto denom = bi + br * ratio;
+  return {
+      static_cast<T>((ar * ratio + ai) / denom),
+      static_cast<T>((ai * ratio - ar) / denom)};
 }
 
 template <
@@ -692,11 +702,7 @@ template <
     typename U,
     enable_if_t<!is_complex_v<U> && is_lane_convertible_v<U, T>, bool> = true>
 constexpr complex_t<T> operator/(U a, complex_t<T> b) {
-  auto scalar = static_cast<T>(a);
-  auto denom = b.real * b.real + b.imag * b.imag;
-  auto x = scalar * b.real;
-  auto y = -scalar * b.imag;
-  return {x / denom, y / denom};
+  return complex_t<T>(a) / b;
 }
 
 template <typename T>
@@ -739,6 +745,7 @@ static MTL_CONST constexpr int REDUCE_N_WRITES = 4;
 static MTL_CONST constexpr int SOFTMAX_N_READS = 4;
 static MTL_CONST constexpr int RMS_N_READS = 4;
 static MTL_CONST constexpr int RMS_LOOPED_LIMIT = 4096;
+static MTL_CONST constexpr int CROSS_ENTROPY_N_READS = 4;
 
 // Instantiate a templated kernel.
 // Extra args are used as template parameters:
@@ -1272,6 +1279,53 @@ inline bool cast_to<bool, bfloat16_t>(bfloat16_t val) {
 template <>
 inline bool cast_to<bool, complex64_t>(complex64_t val) {
   return cast_to<bool, float>(val.real) || cast_to<bool, float>(val.imag);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Row tile scheduling utils
+///////////////////////////////////////////////////////////////////////////////
+
+// helper function to identify the tile, called from gather_mm / gather_qmm
+template <int BM>
+METAL_FUNC bool schedule_row_tile(
+    const device int32_t* offsets,
+    const int num_groups,
+    const int M,
+    const int tile,
+    const uint simd_lane_id,
+    thread int& row,
+    thread int& group,
+    thread short& rows) {
+  int tiles_before = 0;
+  // each lane process an expert
+  for (int e = 0; e < num_groups; e += 32) {
+    const int g = e + simd_lane_id; // shift by lane id
+    int start = M;
+    int end = M;
+    if (g < num_groups) {
+      // start of the experts activations
+      start = offsets[g];
+      // end of the experts activations
+      end = g + 1 < num_groups ? offsets[g + 1] : M;
+    }
+    // number of tiles per expert
+    const int n = (end - start + BM - 1) / BM;
+    // the total number of tiles up to and including this expert
+    const int tiles_through = tiles_before + simd_prefix_inclusive_sum(n);
+    const ushort owner_lane = ushort(simd_sum(int(tiles_through <= tile)));
+    if (owner_lane < 32) {
+      // if true, we found an owner
+      group = e + owner_lane;
+      // fill the row to start
+      row = simd_shuffle(start, owner_lane) +
+          (tile - simd_shuffle(tiles_through - n, owner_lane)) * BM;
+      // number of valid rows in the tile
+      rows = short(min(BM, simd_shuffle(end, owner_lane) - row));
+      return true;
+    }
+    tiles_before = simd_shuffle(tiles_through, 31);
+  }
+  return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

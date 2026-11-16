@@ -1,6 +1,8 @@
 name: Build and Test
 
-on: pull_request
+on:
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -79,12 +81,21 @@ jobs:
         with:
           submodules: recursive
 
+      - name: List XCodes
+        shell: bash
+        run: |
+          ls -l /Applications/Xcode-latest.app
+          ls /Applications | grep -i xcode
+          swift --version
+
       - name: Verify MetalToolchain installed
         shell: bash
         run: xcodebuild -showComponent MetalToolchain
 
       - name: Verify SwiftPM manifest CUDA containment
-        run: scripts/verify-spm-manifest.py
+        shell: sh
+        run: |
+          scripts/verify-spm-manifest.py
 
       - name: Setup cmake
         shell: sh
@@ -148,6 +159,11 @@ jobs:
       - name: Build (cmake)
         shell: sh
         run: |
+          # Without an explicit SDK, /usr/bin/cc (xcrun) may pick the
+          # CommandLineTools SDK, which can be newer than the active Xcode's
+          # compiler/linker understands.  Use the SDK that ships with Xcode.
+          export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          echo "SDKROOT=$SDKROOT"
           rm -rf build
           mkdir build
           cd build
@@ -157,6 +173,7 @@ jobs:
   linux_build_cmake_container:
     name: Linux Container CMake Swift Build (${{ matrix.container }} ${{ matrix.arch }})
     needs: lint
+    if: github.repository == 'ml-explore/mlx-swift'
     strategy:
       fail-fast: false
       matrix:
@@ -194,6 +211,7 @@ jobs:
   linux_build_cmake_cuda:
     name: Linux CUDA CMake Swift Build (cuda-12.9, swift-6.2.3-RELEASE, ubuntu-24.04, x86_64)
     needs: lint
+    if: github.repository == 'ml-explore/mlx-swift'
     runs-on: "gpu-t4-4-core"
     env:
       # Note 12/18/2025: the CI machine does not meet CUDA 13's driver requirement.

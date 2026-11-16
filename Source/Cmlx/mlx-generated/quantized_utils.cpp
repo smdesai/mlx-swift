@@ -7,6 +7,66 @@ const char* quantized_utils() {
 // Auto generated source for mlx/backend/metal/kernels/quantized_utils.h
 
 ///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsBase.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsBase.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsTraits.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsTraits.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsTypes.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsTypes.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsUtility.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsUtility.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsConvolution2dImpl.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsConvolution2dImpl.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MPPTensorOpsConvolution2d.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MPPTensorOpsConvolution2d.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsAvailability.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsAvailability.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsMatMul2dImpl.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/__impl/MPPTensorOpsMatMul2dImpl.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MPPTensorOpsMatMul2d.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MPPTensorOpsMatMul2d.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// Contents from "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MetalPerformancePrimitives.h"
+///////////////////////////////////////////////////////////////////////////////
+
+#line 1 "/Applications/Xcode-beta.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.3.sdk/System/Library/Frameworks/MetalPerformancePrimitives.framework/Headers/MetalPerformancePrimitives.h"
+
+///////////////////////////////////////////////////////////////////////////////
 // Contents from "mlx/backend/metal/kernels/quantized_utils.h"
 ///////////////////////////////////////////////////////////////////////////////
 

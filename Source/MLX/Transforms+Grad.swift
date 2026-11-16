@@ -30,9 +30,7 @@ public func grad(
 // See ``grad(_:)-r8dv``
 public func grad(
     _ f: @escaping ([MLXArray]) -> MLXArray, argumentNumbers: some Collection<Int> = [0]
-) -> (
-    [MLXArray]
-) -> MLXArray {
+) -> ([MLXArray]) -> MLXArray {
     let wrappedFunction = wrapResult(wrapArguments(f))
     let gradientFunction = buildGradient(wrappedFunction, argumentNumbers: argumentNumbers)
     let uag: ([MLXArray]) -> [MLXArray] = unwrapArguments(gradientFunction)
@@ -61,7 +59,6 @@ public func valueAndGrad(
 )
     -> ([MLXArray]) -> ([MLXArray], [MLXArray])
 {
-    //
     return buildValueAndGradient(f, argumentNumbers: argumentNumbers)
 }
 
